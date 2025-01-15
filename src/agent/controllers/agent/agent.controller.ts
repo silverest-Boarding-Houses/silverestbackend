@@ -17,7 +17,7 @@ import {
   import { Agent } from 'src/Entities/Agent.Entity';
   import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
   
-  @ApiTags('Agents')
+  @ApiTags('Agents Application Form')
   @Controller('agents')
   export class AgentController {
     constructor(private readonly agentService: AgentService) {}

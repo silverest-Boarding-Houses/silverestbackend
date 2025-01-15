@@ -17,3 +17,24 @@ export class AdminDto {
   @IsString()
   password: string;
 }
+export class AgentAuthDto{
+  @ApiProperty({ description: 'Username of the agent', example: 'agent123' })
+  @IsNotEmpty()
+  @IsString()
+  username: string;
+
+
+  @ApiProperty({ description: 'Email address of the admin', example: 'admin@example.com' })
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+
+
+@ApiProperty({ description: 'Password for the agent account', example: 'securePassword123'})
+@IsNotEmpty()
+@IsString()
+password: string;
+
+
+}

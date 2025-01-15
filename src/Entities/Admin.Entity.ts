@@ -14,3 +14,18 @@ export class Admin {
   @Column()
   password: string;
 }
+
+@Entity()
+export class AgentAuth{
+  @PrimaryGeneratedColumn()
+  id: number;
+  @Column()
+  username: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+
+}

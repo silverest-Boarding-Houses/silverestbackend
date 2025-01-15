@@ -9,7 +9,7 @@ import { AdminDto } from '../user.register.dto';
 
 @ApiTags('Admin Registration')
 @Controller('auth')
-export class AuthController {
+export class AgentAuthController {
 
     constructor (private readonly userService: UserService) {}
 

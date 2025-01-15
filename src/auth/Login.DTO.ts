@@ -12,3 +12,15 @@ export class LoginDto {
   @IsNotEmpty()
   password: string;
 }
+
+export class agentlogindto{
+  @ApiProperty({description:'enter your username'})
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+  @ApiProperty({description:'enter your password'})
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+  
+}
