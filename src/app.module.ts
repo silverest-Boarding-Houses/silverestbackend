@@ -13,6 +13,9 @@ import { BookingRoomModule } from './booking-room/booking-room.module';
 import { NewsModule } from './news/news.module';
 import { AgentModule } from './agent/agent.module';
 import { NotificationModule } from './notification/notification.module';
+import { AuthController } from './auth/controllers/auth.controller';
+import { BoardingHouseController } from './boarding-house/boarding-house.controller';
+import { BookingRoomController } from './booking-room/booking-room.controller';
 
 
 @Module({
@@ -35,7 +38,7 @@ import { NotificationModule } from './notification/notification.module';
     NotificationModule,
     //AgentAuthModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController,AuthController,BoardingHouseController,BookingRoomController],
   providers: [AppService],
 })
 export class AppModule {}
