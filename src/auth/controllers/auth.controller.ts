@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from '../servies/user.service';
+import { Request, Response, NextFunction } from 'express';
 
-import { Request, Response } from 'express';
 import { Admin } from 'src/Entities/Admin.Entity';
 import { LoginDto } from '../Login.DTO';
 import { AdminDto } from '../user.register.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Admin Registration')
 @Controller('auth')
@@ -30,7 +31,7 @@ export class AuthController {
     @ApiBody({ type: LoginDto })
     @ApiResponse({ status: 200, description: 'Login successful', schema: { example: { access_token: 'jwt_token' } } })
     async login(@Body() loginDto: LoginDto) {
-        const accessToken = await this.userService.Login(loginDto.username, loginDto.password);
+        const accessToken = await this.userService.login(loginDto.username, loginDto.password);
         return { access_token: accessToken };
     }
 // Get all admins
@@ -50,6 +51,18 @@ async updateAdmin(@Param('id', ParseIntPipe) id: number, @Body() adminDto: Admin
   return this.userService.updateAdmin(id, adminDto);
 }
 
+@Post(':id/uploadProfileImage')
+@UseInterceptors(FileInterceptor('profileImage', UserService.getMulterOptions())) // Use the correct field name here
+async uploadProfileImage(
+  @Param('id') id: number,
+  @UploadedFile() file: Express.Multer.File,
+) {
+  if (!file) {
+    throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
+  }
+  return this.userService.uploadProfileImage(id, file);
+}
+
 // Delete an admin
 @Delete(':id')
 @ApiOperation({ summary: 'Delete an admin' })
@@ -60,3 +73,6 @@ async deleteAdmin(@Param('id', ParseIntPipe) id: number) {
 
  
 }
+
+
+//uploads/profile-images

@@ -5,15 +5,21 @@ export class Admin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   username: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   password: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  profileImage: string | null; // Store the image URL or file path here
+
+  // Additional columns and methods if necessary
 }
+
 
 @Entity()
 export class AgentAuth{
