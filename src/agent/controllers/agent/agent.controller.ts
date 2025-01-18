@@ -48,7 +48,7 @@ import {
       return this.agentService.create(agentData);
     }
   
-    @Get()
+    @Get('all')
     @ApiOperation({ summary: 'Get all agents' })
     async findAll(): Promise<Agent[]> {
       return this.agentService.findAll();

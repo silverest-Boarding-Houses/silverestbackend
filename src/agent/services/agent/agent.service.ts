@@ -65,6 +65,8 @@ export class AgentService {
     });
   }
 
+
+
   private async sendRejectionEmail(email: string, name: string): Promise<void> {
     const templateParams = {
       name,
