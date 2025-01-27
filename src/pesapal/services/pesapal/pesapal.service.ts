@@ -21,6 +21,20 @@ export class PesapalService {
        
     }
     async getAccessToken():Promise<string>{
-        const response = await axios.post()
+        const response = await axios.post(
+            `${this.pesapalUrl}/api/Auth/RequestToken`,
+             null,
+             {
+                headers:{
+                    'Content-Type': 'application/json',
+                     Accept:'application/json',
+                     },
+                auth:{
+                  username:this.consumerKey,
+                  password:this.consumerSecret
+                }    
+             }
+        );
+        return response.data.token;
     }
 }
