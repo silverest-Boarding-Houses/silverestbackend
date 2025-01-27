@@ -16,6 +16,7 @@ import { NotificationModule } from './notification/notification.module';
 import { AuthController } from './auth/controllers/auth.controller';
 import { BoardingHouseController } from './boarding-house/boarding-house.controller';
 import { BookingRoomController } from './booking-room/booking-room.controller';
+import { PesapalModule } from './pesapal/pesapal.module';
 
 
 @Module({
@@ -36,6 +37,7 @@ import { BookingRoomController } from './booking-room/booking-room.controller';
     NewsModule,
     AgentModule,
     NotificationModule,
+    PesapalModule,
     //AgentAuthModule,
   ],
   controllers: [AppController,AuthController,BoardingHouseController,BookingRoomController],
