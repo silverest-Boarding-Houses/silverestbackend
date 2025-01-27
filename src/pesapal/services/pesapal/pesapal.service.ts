@@ -10,6 +10,9 @@ export class PesapalService {
     private readonly consumerSecret: string;
 
     constructor(private configService:ConfigService){
-        this.consumerKey = this.configService.get<string>('PESAPAL_CONSUMER_KEY')
+        this.consumerKey = this.configService.get<string>('PESAPAL_CONSUMER_KEY');
+        this.consumerSecret = this.configService.get<string>('PESAPAL_CONSUMER_SECRET');
+
+        this.pesapalUrl = this.configService.get<string>('PESAPAL_ENVIRONMENT') === 'sandbox'
     }
 }
