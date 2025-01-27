@@ -18,10 +18,17 @@ import { BoardingHouseController } from './boarding-house/boarding-house.control
 import { BookingRoomController } from './booking-room/booking-room.controller';
 import { PesapalModule } from './pesapal/pesapal.module';
 import { paymentEntity } from './Entities/pesapal_payment.entity';
+import { ConfigModule } from '@nestjs/config';
+import { config } from 'process';
 
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal:true,
+      envFilePath:''
+
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
