@@ -17,6 +17,7 @@ import { AuthController } from './auth/controllers/auth.controller';
 import { BoardingHouseController } from './boarding-house/boarding-house.controller';
 import { BookingRoomController } from './booking-room/booking-room.controller';
 import { PesapalModule } from './pesapal/pesapal.module';
+import { paymentEntity } from './Entities/pesapal_payment.entity';
 
 
 @Module({
@@ -28,7 +29,7 @@ import { PesapalModule } from './pesapal/pesapal.module';
       username: 'root',
       password: '',
       database: 'silverest',
-      entities: [Admin, BoardingHouse, BookingRoom, News, Agent],
+      entities: [Admin, BoardingHouse, BookingRoom, News, Agent,paymentEntity],
       synchronize: true,
     }),
     AuthModule,

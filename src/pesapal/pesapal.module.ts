@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 
 import { Module } from '@nestjs/common';
 import { PesapalService } from './services/pesapal/pesapal.service';
@@ -9,7 +10,7 @@ import { BookingRoom } from 'src/Entities/Booking.Entity';
 
 
 @Module({
-  imports :[TypeOrmModule.forFeature([paymentEntity,BookingRoom])],
+  imports :[TypeOrmModule.forFeature([paymentEntity,BookingRoom]),HttpModule],
   providers: [PesapalService],
   controllers: [PesapalController]
 })
