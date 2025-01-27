@@ -1,6 +1,7 @@
 import { config } from 'process';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import axios from 'axios';
 
 @Injectable()
 export class PesapalService {
@@ -14,5 +15,12 @@ export class PesapalService {
         this.consumerSecret = this.configService.get<string>('PESAPAL_CONSUMER_SECRET');
 
         this.pesapalUrl = this.configService.get<string>('PESAPAL_ENVIRONMENT') === 'sandbox'
+        ? 'https://cybqa.pesapal.com/pesapalv3'
+        : 'https://pay.pesapal.com/v3';
+
+       
+    }
+    async getAccessToken():Promise<string>{
+        const response = await axios.post()
     }
 }
