@@ -22,11 +22,11 @@ import { PesapalModule } from './pesapal/pesapal.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: 'mysql',
       host: 'localhost',
-      port: 5432,
-      username: 'damascus',
-      password: 'kali',
+      port: 3306,
+      username: 'root',
+      password: '',
       database: 'silverest',
       entities: [Admin, BoardingHouse, BookingRoom, News, Agent],
       synchronize: true,
