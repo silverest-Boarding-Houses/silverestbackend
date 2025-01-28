@@ -37,4 +37,20 @@ export class PesapalService {
         );
         return response.data.token;
     }
+   async submitOrder(oderDetails:any):Promise<string>{
+      const accessToken = await this.getAccessToken();
+       const response = await axios.post(
+        `${this.pesapalUrl}/api/Transactions/SubmitOrderRequest`,
+        oderDetails,
+        {
+            headers:{
+                'Content-Type': 'application/json',
+                Accept:'application/json',
+                Authorization:`Bearer ${accessToken}`
+            }
+        }
+    );
+    return response.data.redirect_url;
+     
+   } 
 }
