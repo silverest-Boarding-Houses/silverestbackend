@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class paymentEntity{
+export class paymentDTO{
 
      @ApiProperty(
         

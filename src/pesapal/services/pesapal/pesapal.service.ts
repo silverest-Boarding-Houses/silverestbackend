@@ -1,3 +1,4 @@
+import { paymentDTO } from './../../DTO/paymentDto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -43,11 +44,11 @@ export class PesapalService {
     return response.data.token;
   }
 
-  async submitOrder(orderDetails: any): Promise<string> {
+  async submitOrder(paymentDTO: paymentDTO): Promise<string> {
     const accessToken = await this.getAccessToken();
     const response = await axios.post(
       `${this.pesapalUrl}/api/Transactions/SubmitOrderRequest`,
-      orderDetails,
+      paymentDTO,
       {
         headers: {
           'Content-Type': 'application/json',
