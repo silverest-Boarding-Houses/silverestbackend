@@ -61,8 +61,8 @@ export class PesapalService {
     // Save payment details to the database
     const payment = this.paymentRepository.create({
     
-      amount: orderDetails.amount,
-      currency: orderDetails.currency,
+      amount: paymentDTO.amount,
+      currency: paymentDTO.currency,
       status: 'PENDING',
       paymentMethod: 'PESAPAL',
       createdAt: new Date(),
