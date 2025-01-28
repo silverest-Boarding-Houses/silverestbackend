@@ -10,7 +10,13 @@ export class PesapalController {
     constructor(private readonly pesapalService:PesapalService){}
 
     @Post()
-     async submitOrder(@Body() paymentDTO:paymentDTO, ){
-        const redirect_url= await this.pesapalService.submitOrder(paymentDTO)
-     }
+async submitOrder(@Body() paymentDTO: paymentDTO) {
+  try {
+    const redirect_url = await this.pesapalService.submitOrder(paymentDTO);
+    return { redirect_url };
+  } catch (error) {
+    console.error('Error in submitOrder:', error);
+    throw new Error('Failed to process payment');
+  }
+}
 }

@@ -1,11 +1,7 @@
-import { paymentDTO } from './../../DTO/paymentDto';
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-
+import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import axios from 'axios';
-import { paymentEntity } from 'src/Entities/pesapal_payment.entity';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class PesapalService {
@@ -14,8 +10,7 @@ export class PesapalService {
   private readonly consumerSecret: string;
 
   constructor(
-    @InjectRepository(paymentEntity)
-    private readonly paymentRepository: Repository<paymentEntity>,
+    private readonly httpService: HttpService,
     private configService: ConfigService,
   ) {
     this.consumerKey = this.configService.get<string>('PESAPAL_CONSUMER_KEY');
@@ -27,48 +22,50 @@ export class PesapalService {
   }
 
   async getAccessToken(): Promise<string> {
-    const response = await axios.post(
-      `${this.pesapalUrl}/api/Auth/RequestToken`,
-      null,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        auth: {
-          username: this.consumerKey,
-          password: this.consumerSecret,
-        },
-      },
-    );
-    return response.data.token;
+    try {
+      const response = await firstValueFrom(
+        this.httpService.post(
+          `${this.pesapalUrl}/api/Auth/RequestToken`,
+          null,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+            auth: {
+              username: this.consumerKey,
+              password: this.consumerSecret,
+            },
+          },
+        ),
+      );
+      return response.data.token;
+    } catch (error) {
+      console.error('Error fetching access token:', error.response?.data || error.message);
+      throw new Error('Failed to fetch access token');
+    }
   }
 
-  async submitOrder(paymentDTO: paymentDTO): Promise<string> {
-    const accessToken = await this.getAccessToken();
-    const response = await axios.post(
-      `${this.pesapalUrl}/api/Transactions/SubmitOrderRequest`,
-      paymentDTO,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
-
-    // Save payment details to the database
-    const payment = this.paymentRepository.create({
-    
-      amount: paymentDTO.amount,
-      currency: paymentDTO.currency,
-      status: 'PENDING',
-      paymentMethod: 'PESAPAL',
-      createdAt: new Date(),
-    });
-    await this.paymentRepository.save(payment);
-
-    return response.data.redirect_url;
+  async submitOrder(paymentDTO: any): Promise<string> {
+    try {
+      const accessToken = await this.getAccessToken();
+      const response = await firstValueFrom(
+        this.httpService.post(
+          `${this.pesapalUrl}/api/Transactions/SubmitOrderRequest`,
+          paymentDTO,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        ),
+      );
+      return response.data.redirect_url;
+    } catch (error) {
+      console.error('Error submitting order:', error.response?.data || error.message);
+      throw new Error('Failed to submit order');
+    }
   }
 }
