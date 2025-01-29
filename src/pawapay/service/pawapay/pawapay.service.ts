@@ -1,3 +1,4 @@
+import { paymentDTO } from './../../../pesapal/DTO/paymentDto';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
@@ -15,7 +16,23 @@ export class PawapayService {
         private readonly ConfigService: ConfigService,
 
         @InjectRepository(PawaPaymentEnity) private  readonly pawapayEntity:Repository<PawaPaymentEnity>,
-    ){
+    ){ }
+
+    async initiatePayment(paymentData:any){
+
+        const url = `${this.ConfigService.get('PAWAPAY_BASE_URL')}/payments`;
+        const headers = {
+        Authorization: `Bearer ${this.ConfigService.get('PAWAPAY_API_KEY')}`,
+        };
+
+        try {
+
+            
+            
+        } catch (error) {
+            
+        }
+
 
     }
 }
