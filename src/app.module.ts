@@ -19,25 +19,22 @@ import { BookingRoomController } from './booking-room/booking-room.controller';
 import { PesapalModule } from './pesapal/pesapal.module';
 import { paymentEntity } from './Entities/pesapal_payment.entity';
 import { ConfigModule } from '@nestjs/config';
-import { config } from 'process';
-
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true,
-      envFilePath:''
-
+      isGlobal: true, // Makes the configuration globally available
+      envFilePath: '.env', // Load the .env file from the root of the project
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '',
+      password: '', // Make sure to set the correct password
       database: 'silverest',
-      entities: [Admin, BoardingHouse, BookingRoom, News, Agent,paymentEntity],
-      synchronize: true,
+      entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity],
+      synchronize: true, // Use with caution in production, as it syncs the DB schema automatically
     }),
     AuthModule,
     BoardingHouseModule,
@@ -48,7 +45,7 @@ import { config } from 'process';
     PesapalModule,
     //AgentAuthModule,
   ],
-  controllers: [AppController,AuthController,BoardingHouseController,BookingRoomController],
+  controllers: [AppController, AuthController, BoardingHouseController, BookingRoomController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -5,9 +5,16 @@ import { AppModule } from './app.module';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express'; // Import Express adapter
 
-
+// Load environment variables before anything else
 dotenv.config();
+
 async function bootstrap() {
+  // Log environment variables to confirm they are loaded
+  console.log('Loaded environment variables:');
+  console.log('PORT:', process.env.PORT);
+  console.log('PESAPAL_CONSUMER_KEY:', process.env.PESAPAL_CONSUMER_KEY);
+  console.log('PESAPAL_CONSUMER_SECRET:', process.env.PESAPAL_CONSUMER_SECRET);
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule); // Use Express adapter
 
   // Serve static assets (uploads directory)
@@ -35,9 +42,11 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   // Start the application
-  await app.listen(process.env.PORT ?? 3000);
+  const port = process.env.PORT ?? 3000; // Default to 3000 if no port is specified
+  await app.listen(port);
 
-  console.log(`Application is running on: http://localhost:${process.env.PORT ?? 3000}`);
-  console.log(`Swagger documentation is available on: http://localhost:${process.env.PORT ?? 3000}/api`);
+  console.log(`Application is running on: http://localhost:${port}`);
+  console.log(`Swagger documentation is available on: http://localhost:${port}/api`);
 }
+
 bootstrap();
