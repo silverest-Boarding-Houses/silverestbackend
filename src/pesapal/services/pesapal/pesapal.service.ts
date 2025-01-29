@@ -1,3 +1,4 @@
+import { paymentDTO } from './../../DTO/paymentDto';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
@@ -54,14 +55,14 @@ export class PesapalService {
     }
   }
 
-  async submitOrder(orderDetails: any): Promise<string> {
+  async submitOrder(paymentDTO: paymentDTO): Promise<string> {
     try {
       const accessToken = await this.getAccessToken();
 
       const response = await firstValueFrom(
         this.httpService.post(
           `${this.pesapalUrl}/api/Transactions/SubmitOrderRequest`,
-          orderDetails,
+          paymentDTO,
           {
             headers: {
               'Content-Type': 'application/json',
