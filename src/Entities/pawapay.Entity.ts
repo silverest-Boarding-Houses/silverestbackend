@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 
 @Entity()
-export class CreatePaymentDto {
+export class PawaPaymentEnity {
 
   @PrimaryGeneratedColumn()  
   id:number
