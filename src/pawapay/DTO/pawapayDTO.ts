@@ -7,7 +7,7 @@ export class CreatePaymentDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsIn(['USD', 'EUR', 'XAF']) // Example currencies
+  @IsIn(['zmw']) // Example currencies
   currency: string;
 
   @IsString()
