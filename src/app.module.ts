@@ -26,7 +26,7 @@ import { config } from 'process';
   imports: [
     ConfigModule.forRoot({
       isGlobal:true,
-      envFilePath:'.env'
+      envFilePath:''
 
     }),
     TypeOrmModule.forRoot({
