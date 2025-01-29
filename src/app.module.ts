@@ -19,6 +19,7 @@ import { BookingRoomController } from './booking-room/booking-room.controller';
 import { PesapalModule } from './pesapal/pesapal.module';
 import { paymentEntity } from './Entities/pesapal_payment.entity';
 import { ConfigModule } from '@nestjs/config';
+import { PawapayModule } from './pawapay/pawapay.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { ConfigModule } from '@nestjs/config';
     AgentModule,
     NotificationModule,
     PesapalModule,
+    PawapayModule,
     //AgentAuthModule,
   ],
   controllers: [AppController, AuthController, BoardingHouseController, BookingRoomController],
