@@ -22,6 +22,11 @@ export class PesapalService {
       this.configService.get<string>('PESAPAL_ENVIRONMENT') === 'sandbox'
         ? 'https://cybqa.pesapal.com/pesapalv3'
         : 'https://pay.pesapal.com/v3';
+
+
+        this.logger.log(`Pesapal Consumer Key: ${this.consumerKey}`);
+        this.logger.log(`Pesapal Consumer Secret: ${this.consumerSecret ? '****' : 'Missing'}`);
+        this.logger.log(`Pesapal Environment URL: ${this.pesapalUrl}`);
   }
 
   async getAccessToken(): Promise<string> {
