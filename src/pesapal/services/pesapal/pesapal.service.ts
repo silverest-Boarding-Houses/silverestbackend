@@ -1,18 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class PesapalService {
+ private readonly logger = new Logger(PesapalService.name)
+
   private readonly pesapalUrl: string;
   private readonly consumerKey: string;
   private readonly consumerSecret: string;
 
   constructor(
     private readonly httpService: HttpService,
-    private configService: ConfigService,
+    private configService: ConfigService, // Inject ConfigService
   ) {
+    // Access environment variables using ConfigService
     this.consumerKey = this.configService.get<string>('PESAPAL_CONSUMER_KEY');
     this.consumerSecret = this.configService.get<string>('PESAPAL_CONSUMER_SECRET');
     this.pesapalUrl =
@@ -46,13 +49,13 @@ export class PesapalService {
     }
   }
 
-  async submitOrder(paymentDTO: any): Promise<string> {
+  async submitOrder(orderDetails: any): Promise<string> {
     try {
       const accessToken = await this.getAccessToken();
       const response = await firstValueFrom(
         this.httpService.post(
           `${this.pesapalUrl}/api/Transactions/SubmitOrderRequest`,
-          paymentDTO,
+          orderDetails,
           {
             headers: {
               'Content-Type': 'application/json',
