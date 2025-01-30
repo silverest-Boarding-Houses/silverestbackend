@@ -15,7 +15,7 @@ export class PawapayController {
             return {success:true, data:result}
             
         } catch (error) {
-            return {success:true, data:result}
+            return {success:true, message:error.message}
             
         }
         
