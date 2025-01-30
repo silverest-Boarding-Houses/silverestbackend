@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, IsIn } from 'class-validator';
 
-export class CreatePaymentDto {
+export class PawaPayDTO {
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()

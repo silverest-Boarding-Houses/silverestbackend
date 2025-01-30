@@ -20,6 +20,7 @@ import { PesapalModule } from './pesapal/pesapal.module';
 import { paymentEntity } from './Entities/pesapal_payment.entity';
 import { ConfigModule } from '@nestjs/config';
 import { PawapayModule } from './pawapay/pawapay.module';
+import { PawaPaymentEnity } from './Entities/pawapay.Entity';
 
 @Module({
   imports: [
@@ -34,7 +35,7 @@ import { PawapayModule } from './pawapay/pawapay.module';
       username: 'root',
       password: '', // Make sure to set the correct password
       database: 'silverest',
-      entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity],
+      entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity,PawaPaymentEnity],
       synchronize: true, // Use with caution in production, as it syncs the DB schema automatically
     }),
     AuthModule,
