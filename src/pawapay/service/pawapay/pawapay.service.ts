@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PawaPaymentEntity } from 'src/entities/pawapay.entity'; // Fixed entity name and path casing
 import { Repository } from 'typeorm';
 import { firstValueFrom } from 'rxjs';
+import { PawaPayDTO } from 'src/pawapay/DTO/pawapayDTO';
 
 @Injectable()
 export class PawapayService {
@@ -24,7 +25,7 @@ export class PawapayService {
         this.baseUrl = this.configService.get('PAWAPAY_BASE_URL');
     }
 
-    async initiatePayment(paymentData: pawapayD) {
+    async initiatePayment(paymentData: PawaPayDTO) {
         const url = `${this.baseUrl}/payments`; // Use instance property
         const headers = {
             Authorization: `Bearer ${this.apiKey}`,
