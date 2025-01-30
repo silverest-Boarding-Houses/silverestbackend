@@ -25,42 +25,38 @@ export class PawapayService {
         this.baseUrl = this.configService.get('PAWAPAY_BASE_URL');
     }
 
-    async initiatePayment(paymentData: PawaPayDTO) {
-        const url = `${this.baseUrl}/payments`; // Use instance property
-        const headers = {
-            Authorization: `Bearer ${this.apiKey}`,
-        };
-
-        let transaction: PawaPaymentEntity | null = null;
-
+    async initiatePayment(paymentData: {
+        amount: number;
+        currency: string;
+        customerPhone: string;
+        transactionId: string;
+      }) {
+        const url = `${this.baseUrl}/payments`;
+        const headers = { Authorization: `Bearer ${this.apiKey}` };
+      
+        // Create transaction record
+        const transaction = this.pawapayTransaction.create({
+          ...paymentData,
+          status: 'initiated',
+        });
+      
         try {
-            // Create transaction
-            transaction = this.pawapayTransaction.create({
-                ...paymentData,
-                status: 'initiated',
-            });
-            await this.pawapayTransaction.save(transaction);
-
-            // Call PawaPay API
-            const response = await firstValueFrom(
-                this.httpService.post(url, paymentData, { headers }),
-            );
-
-            // Update transaction on success
-            transaction.status = 'success';
-            await this.pawapayTransaction.save(transaction);
-
-            return response.data;
-
-        } catch (error) { // Fixed catch parameter name
-            // Handle transaction update on error
-            if (transaction) {
-                transaction.status = 'failed';
-                await this.pawapayTransaction.save(transaction);
-            }
-            
-            // Throw proper error message
-            throw new Error(`Payment failed: ${error.message}`); // Fixed template literal
+          await this.pawapayTransaction.save(transaction);
+      
+          const response = await firstValueFrom(
+            this.httpService.post(url, paymentData, { headers })
+          );
+      
+          // Update transaction status
+          transaction.status = 'success';
+          await this.pawapayTransaction.save(transaction);
+      
+          return response.data;
+        } catch (error) {
+          // Handle failure
+          transaction.status = 'failed';
+          await this.pawapayTransaction.save(transaction);
+          throw new Error(`Payment failed: ${error.message}`);
         }
-    }
+      }
 }
