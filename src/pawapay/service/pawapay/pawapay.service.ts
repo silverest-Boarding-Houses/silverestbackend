@@ -4,10 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PawaPaymentEntity } from 'src/entities/pawapay.entity'; // Fixed entity name and path casing
+
 import { Repository } from 'typeorm';
 import { firstValueFrom } from 'rxjs';
 import { PawaPayDTO } from 'src/pawapay/DTO/pawapayDTO';
+import { PawaPaymentEntity } from 'src/Entities/pawapay.Entity';
 
 @Injectable()
 export class PawapayService {

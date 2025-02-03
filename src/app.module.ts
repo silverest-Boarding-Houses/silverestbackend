@@ -28,12 +28,22 @@ import {  PawaPaymentEntity } from './Entities/pawapay.Entity';
       isGlobal: true, // Makes the configuration globally available
       envFilePath: '.env', // Load the .env file from the root of the project
     }),
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3306,
+    //   username: 'root',
+    //   password: '', // Make sure to set the correct password
+    //   database: 'silverest',
+    //   entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity,PawaPaymentEntity],
+    //   synchronize: true, // Use with caution in production, as it syncs the DB schema automatically
+    // }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '', // Make sure to set the correct password
+      port: 5432,
+      username: 'postgres',
+      password: 'kali', // Make sure to set the correct password
       database: 'silverest',
       entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity,PawaPaymentEntity],
       synchronize: true, // Use with caution in production, as it syncs the DB schema automatically
