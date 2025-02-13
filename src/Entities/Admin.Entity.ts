@@ -20,18 +20,3 @@ export class Admin {
   // Additional columns and methods if necessary
 }
 
-
-@Entity()
-export class AgentAuth{
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column()
-  username: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
-
-}

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Admin, AgentAuth } from './Entities/Admin.Entity';
+import * as fs from 'fs';
 import { BoardingHouse } from './Entities/BoardingHouses.Entity';
 import { BookingRoom } from './Entities/Booking.Entity';
 import { News } from './Entities/News.entity';
@@ -20,45 +20,48 @@ import { PesapalModule } from './pesapal/pesapal.module';
 import { paymentEntity } from './Entities/pesapal_payment.entity';
 import { ConfigModule } from '@nestjs/config';
 import { PawapayModule } from './pawapay/pawapay.module';
-import {  PawaPaymentEntity } from './Entities/pawapay.Entity';
+import { PawaPaymentEntity } from './Entities/pawapay.Entity';
+
+import { AgentAuthService } from './agent-auth/agent-auth.service';
+import { AgentAuthController } from './agent-auth/agent-auth.controller';
+import { AgentAuthModule } from './agent-auth/agent-auth.module';
+import { Admin } from './Entities/Admin.Entity'; // ✅ Fixed import
+import { AgentAuth } from './Entities/AgentAuth.Entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Makes the configuration globally available
-      envFilePath: '.env', // Load the .env file from the root of the project
+      isGlobal: true,
+      envFilePath: '.env',
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: 'root',
-    //   password: '', // Make sure to set the correct password
-    //   database: 'silverest',
-    //   entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity,PawaPaymentEntity],
-    //   synchronize: true, // Use with caution in production, as it syncs the DB schema automatically
-    // }),
+   
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'kali', // Make sure to set the correct password
-      database: 'silverest',
-      entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity,PawaPaymentEntity],
-      synchronize: true, // Use with caution in production, as it syncs the DB schema automatically
+      host: 'xmcn46t1ld.qo6yibiidz.tsdb.cloud.timescale.com', // Host from the connection information
+      port: 34399, // Port from the connection information
+      username: 'tsdbadmin', // Username from the connection information
+      password: 'ialqp4dnga4sks0x', // Password from the connection information
+      database: 'tsdb', // Database name from the connection information
+      synchronize: true,  // Use with caution, only in dev environment
+      entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity, PawaPaymentEntity, AgentAuth],
+    
+      // ssl: {
+      //   rejectUnauthorized: false, // Allow self-signed certificates
+      //   ca: fs.readFileSync('certificates/certificate.crt').toString(), // Path to the certificate
+      // },
     }),
+    
     AuthModule,
     BoardingHouseModule,
+    AgentAuthModule, // ✅ Ensure this module is imported
     BookingRoomModule,
     NewsModule,
     AgentModule,
     NotificationModule,
     PesapalModule,
     PawapayModule,
-    //AgentAuthModule,
   ],
-  controllers: [AppController, AuthController, BoardingHouseController, BookingRoomController],
-  providers: [AppService],
+  controllers: [AppController, AuthController, BoardingHouseController, BookingRoomController, AgentAuthController],
+  providers: [AppService, AgentAuthService],
 })
 export class AppModule {}
