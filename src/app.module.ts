@@ -1,32 +1,39 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as fs from 'fs';
+import { ConfigModule } from '@nestjs/config';
+
+// Entities
+import { Admin } from './Entities/Admin.Entity';
 import { BoardingHouse } from './Entities/BoardingHouses.Entity';
 import { BookingRoom } from './Entities/Booking.Entity';
 import { News } from './Entities/News.entity';
 import { Agent } from './Entities/Agent.Entity';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { paymentEntity } from './Entities/pesapal_payment.entity';
+import { PawaPaymentEntity } from './Entities/pawapay.Entity';
+import { AgentAuth } from './Entities/AgentAuth.Entity';
+
+// Modules
 import { AuthModule } from './auth/auth.module';
 import { BoardingHouseModule } from './boarding-house/boarding-house.module';
 import { BookingRoomModule } from './booking-room/booking-room.module';
 import { NewsModule } from './news/news.module';
 import { AgentModule } from './agent/agent.module';
 import { NotificationModule } from './notification/notification.module';
+import { PesapalModule } from './pesapal/pesapal.module';
+import { PawapayModule } from './pawapay/pawapay.module';
+import { AgentAuthModule } from './agent-auth/agent-auth.module';
+
+// Controllers
+import { AppController } from './app.controller';
 import { AuthController } from './auth/controllers/auth.controller';
 import { BoardingHouseController } from './boarding-house/boarding-house.controller';
 import { BookingRoomController } from './booking-room/booking-room.controller';
-import { PesapalModule } from './pesapal/pesapal.module';
-import { paymentEntity } from './Entities/pesapal_payment.entity';
-import { ConfigModule } from '@nestjs/config';
-import { PawapayModule } from './pawapay/pawapay.module';
-import { PawaPaymentEntity } from './Entities/pawapay.Entity';
-
-import { AgentAuthService } from './agent-auth/agent-auth.service';
 import { AgentAuthController } from './agent-auth/agent-auth.controller';
-import { AgentAuthModule } from './agent-auth/agent-auth.module';
-import { Admin } from './Entities/Admin.Entity'; // ✅ Fixed import
-import { AgentAuth } from './Entities/AgentAuth.Entity';
+
+// Services
+import { AppService } from './app.service';
+import { AgentAuthService } from './agent-auth/agent-auth.service';
 
 @Module({
   imports: [
@@ -34,26 +41,23 @@ import { AgentAuth } from './Entities/AgentAuth.Entity';
       isGlobal: true,
       envFilePath: '.env',
     }),
-   
+
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'xmcn46t1ld.qo6yibiidz.tsdb.cloud.timescale.com', // Host from the connection information
-      port: 34399, // Port from the connection information
-      username: 'tsdbadmin', // Username from the connection information
-      password: 'ialqp4dnga4sks0x', // Password from the connection information
-      database: 'tsdb', // Database name from the connection information
-      synchronize: true,  // Use with caution, only in dev environment
+      url:'amqps://wxfunqlh:edB1FjDcaI1U4nB-gGrFlh0L2gAlcBhZ@possum.lmq.cloudamqp.com/wxfunqlh',
+      synchronize: true, // Use only in dev, not production
       entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity, PawaPaymentEntity, AgentAuth],
-    
-      // ssl: {
-      //   rejectUnauthorized: false, // Allow self-signed certificates
-      //   ca: fs.readFileSync('certificates/certificate.crt').toString(), // Path to the certificate
-      // },
+
+      // Enable SSL if required by the database
+      ssl: {
+        rejectUnauthorized: false, // ⚠️ Use this only if your DB requires SSL without certificates
+        // ca: fs.readFileSync('certificates/certificate.crt').toString(), // Uncomment if using a certificate
+      },
     }),
-    
+
     AuthModule,
     BoardingHouseModule,
-    AgentAuthModule, // ✅ Ensure this module is imported
+    AgentAuthModule,
     BookingRoomModule,
     NewsModule,
     AgentModule,
