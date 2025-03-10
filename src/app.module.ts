@@ -42,16 +42,20 @@ import { AgentAuthService } from './agent-auth/agent-auth.service';
       envFilePath: '.env',
     }),
 
-    TypeOrmModule.forRoot({
+     TypeOrmModule.forRoot({
       type: 'postgres',
-      url:'amqps://wxfunqlh:edB1FjDcaI1U4nB-gGrFlh0L2gAlcBhZ@possum.lmq.cloudamqp.com/wxfunqlh',
-      synchronize: true, // Use only in dev, not production
-      entities: [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity, PawaPaymentEntity, AgentAuth],
-
-      // Enable SSL if required by the database
-      ssl: {
-        rejectUnauthorized: false, // ⚠️ Use this only if your DB requires SSL without certificates
-        // ca: fs.readFileSync('certificates/certificate.crt').toString(), // Uncomment if using a certificate
+      host: 'dpg-cv6t0g56l47c73dbilr0-a.oregon-postgres.render.com',
+      port: 5432,
+      username: 'paysmart_backend_user',
+      password: 'bLg5kfZXFLcuywytNftc566Q7yV0SsY5',
+      database: 'paysmart_backend',
+      entities:  [Admin, BoardingHouse, BookingRoom, News, Agent, paymentEntity, PawaPaymentEntity, AgentAuth],
+      synchronize: true, // Set to false in production
+      ssl: true, // Required for Render-hosted PostgreSQL
+      extra: {
+        ssl: {
+          rejectUnauthorized: false, // Avoids SSL issues
+        },
       },
     }),
 
