@@ -20,7 +20,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: 'https://silverestboardinghouses.netlify.app/' , // Replace with your frontend's origin  , https://silverestboardinghouses.netlify.app/'
+    origin: 'https://silverestboardinghouses.netlify.app' , // Replace with your frontend's origin  , https://silverestboardinghouses.netlify.app/'
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
